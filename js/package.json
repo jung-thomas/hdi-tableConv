@@ -1,0 +1,20 @@
+{
+	"dependencies": {
+		"sap-xsenv": "1.2.2",		
+		"express": "4.12.3",
+		"sap-hdbext": "2.0.4",
+		"sap-xssec": "0.5.4",
+		"passport": "0.3.2",
+		"async": "latest",
+		"accept-language-parser": "latest"
+	},
+	"description": "",
+	"devDependencies": {},
+	"files": [],
+	"main": "server.js",
+	"name": "js",
+	"scripts": {
+		"start": "node server.js"
+	},
+	"version": "1.0.0"
+}
