@@ -125,7 +125,7 @@ sap.ui.controller("view.App", {
 			
 	   onDownloadText: function(){
 		   var oController = this.getView().getController();	
-		   oController.onMassDownload("text");		   
+		   oController.onMassDownload("txt");		   
 	   },
 			   
 	   onDownloadZip: function(){
@@ -137,7 +137,8 @@ sap.ui.controller("view.App", {
 		    var oModel = sap.ui.getCore().getModel();
 			var table = oModel.getProperty("/Table");
 			var schema = oModel.getProperty("/Schema");			
-			var UrlDownload = "/rest/download/" +escape(schema)+ "/" + table;  //+'&type='+escape(type); 
+			var UrlDownload = "/rest/download/" + escape(schema)+ "/"  + escape(type)  + "/"; 
+			if (!(typeof table === "undefined" || table === null || table === "")) { UrlDownload += escape(table); } 
 			window.open(UrlDownload);
 			return;	
 	   },    

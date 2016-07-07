@@ -6,6 +6,7 @@
 		"sap-xssec": "0.5.4",
 		"passport": "0.3.2",
 		"async": "latest",
+		"node-zip": "1.1.1",
 		"accept-language-parser": "latest"
 	},
 	"description": "",
