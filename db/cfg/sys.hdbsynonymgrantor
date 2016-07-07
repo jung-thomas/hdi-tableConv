@@ -1,0 +1,90 @@
+{
+  "CROSS_SCHEMA_SYS": {
+    "object_owner" : {
+      "object_privileges":[ 
+        { 
+          "schema":"SYS",
+          "name": "VIEWS",
+          "type": "VIEW",
+          "privileges":["SELECT"]
+        },
+        { 
+          "schema":"SYS",
+          "name": "TABLES",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        }, 
+        { 
+          "schema":"SYS",
+          "name": "USERS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },
+		{ 
+          "schema":"SYS",
+          "name": "SCHEMAS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },
+		{ 
+          "schema":"SYS",
+          "name": "TABLE_COLUMNS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },  
+		{ 
+          "schema":"SYS",
+          "name": "CONSTRAINTS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        }        
+      ]
+    },
+    "application_user" : {
+	 "schema_privileges":[ 
+        { 
+          "reference":"SFLIGHT",
+          "privileges":["SELECT", "SELECT METADATA"]
+        }
+      ],
+      "object_privileges":[ 
+        { 
+          "schema":"SYS",
+          "name": "VIEWS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },
+        { 
+          "schema":"SYS",
+          "name": "TABLES",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        }, 
+        { 
+          "schema":"SYS",
+          "name": "USERS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },
+		{ 
+          "schema":"SYS",
+          "name": "SCHEMAS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },
+		{ 
+          "schema":"SYS",
+          "name": "TABLE_COLUMNS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        },  
+		{ 
+          "schema":"SYS",
+          "name": "CONSTRAINTS",
+          "type": "VIEW",          
+          "privileges":["SELECT"]
+        }           
+      ]
+    }
+  }
+}

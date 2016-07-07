@@ -1,0 +1,38 @@
+{
+  "DUMMY": {
+    "target": {
+      "object": "DUMMY",
+      "schema": "SYS"
+    }
+  },
+  "TABLES": {
+    "target": {
+      "object": "TABLES",
+      "schema": "SYS"
+    }
+  },
+  "VIEWS": {
+    "target": {
+      "object": "VIEWS",
+      "schema": "SYS"
+    }
+  },
+  "SCHEMAS": {
+    "target": {
+      "object": "SCHEMAS",
+      "schema": "SYS"
+    }
+  },
+  "TABLE_COLUMNS": {
+    "target": {
+      "object": "TABLE_COLUMNS",
+      "schema": "SYS"
+    }
+  },
+  "CONSTRAINTS": {
+    "target": {
+      "object": "CONSTRAINTS",
+      "schema": "SYS"
+    }
+  }
+}

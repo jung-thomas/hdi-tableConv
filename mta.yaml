@@ -1,0 +1,53 @@
+_schema-version: 2.0.0
+ID: hdi-tableConv
+version: 0.0.1
+
+modules:
+- name: db
+  type: hdb
+  path: db
+  requires:
+   - name: hdi-container
+     properties:
+       TARGET_CONTAINER: ~{hdi-service-name}   
+   - name: CrossSchemaSys
+   
+
+- name: js
+  type: nodejs
+  path: js
+  provides: 
+    - name: nodejs
+      properties:
+        url: "${default-url}"
+  requires:
+    - name: tableConv-uaa
+    - name: hdi-container    
+
+- name: web
+  type: html5
+  path: web
+  requires:
+    - name: tableConv-uaa
+    - name: nodejs
+      group: destinations
+      properties:
+        name: nodejs
+        url: ~{url}
+        forwardAuthToken: true
+
+resources:
+- name: hdi-container
+  type: com.sap.xs.hdi-container
+  properties:
+    hdi-service-name: ${service-name}
+    
+- name: CrossSchemaSys
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: CROSS_SCHEMA_SYS
+    
+- name: tableConv-uaa
+  type: com.sap.xs.uaa
+  parameters:
+    config_path: ./xs-security.json
