@@ -2,7 +2,11 @@
 	"welcomeFile": "index.html",
 	"authenticationMethod": "route",
 	"routes": [{
+<<<<<<< HEAD
 		"source": "/rest(.*)",
+=======
+		"source": "/node(.*)",
+>>>>>>> refs/remotes/origin/master
 		"destination": "nodejs",
 		"csrfProtection": true,
 		"authenticationType": "xsuaa" 
