@@ -1,0 +1,13 @@
+_schema-version: 2.0.0
+ID: hdi-tableConv.extension
+extends: hdi-tableConv
+
+resources:
+- name: hdi-container
+  properties:
+    config:
+      schema: TABLE_CONV_HDBCDS
+      
+- name: CrossSchemaSys
+  parameters:
+    service-name: CROSS_SCHEMA_SYS

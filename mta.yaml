@@ -9,9 +9,14 @@ modules:
   requires:
    - name: hdi-container
      properties:
-       TARGET_CONTAINER: ~{hdi-service-name}   
+       key: hdi-local-service
+       service: ~{hdi-service-name}
+       TARGET_CONTAINER: ~{hdi-service-name} 
    - name: CrossSchemaSys
-   
+     group: SERVICE_REPLACEMENTS
+     properties:
+       key: hdi-sys-service
+       service: ~{sys-service-name}      
 
 - name: js
   type: nodejs
@@ -41,11 +46,15 @@ resources:
   type: com.sap.xs.hdi-container
   properties:
     hdi-service-name: ${service-name}
-    
+    config:
+      schema: TABLE_CONV_HDBCDS
+      
 - name: CrossSchemaSys
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SYS
+  properties:
+    sys-service-name: ${service-name}
     
 - name: tableConv-uaa
   type: com.sap.xs.uaa
