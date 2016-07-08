@@ -46,6 +46,7 @@ resources:
   type: com.sap.xs.hdi-container
   properties:
     hdi-service-name: ${service-name}
+  parameters:  
     config:
       schema: TABLE_CONV_HDBCDS
       

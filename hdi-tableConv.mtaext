@@ -4,7 +4,7 @@ extends: hdi-tableConv
 
 resources:
 - name: hdi-container
-  properties:
+  parameters:
     config:
       schema: TABLE_CONV_HDBCDS
       
