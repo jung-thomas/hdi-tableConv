@@ -3,11 +3,6 @@ ID: hdi-tableConv.extension
 extends: hdi-tableConv
 
 resources:
-- name: hdi-container
-  parameters:
-    config:
-      schema: TABLE_CONV_HDBCDS
-      
-- name: CrossSchemaSys
+- name: CROSS_SCHEMA_SYS
   parameters:
     service-name: CROSS_SCHEMA_SYS

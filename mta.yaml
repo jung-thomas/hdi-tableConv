@@ -1,23 +1,8 @@
 _schema-version: 2.0.0
 ID: hdi-tableConv
-version: 0.0.2
+version: 0.1.0
 
 modules:
-- name: db
-  type: hdb
-  path: db
-  requires:
-   - name: hdi-container
-     properties:
-       key: hdi-local-service
-       service: ~{hdi-service-name}
-       TARGET_CONTAINER: ~{hdi-service-name} 
-   - name: CrossSchemaSys
-     group: SERVICE_REPLACEMENTS
-     properties:
-       key: hdi-sys-service
-       service: ~{sys-service-name}      
-
 - name: js
   type: nodejs
   path: js
@@ -27,13 +12,19 @@ modules:
         url: "${default-url}"
   requires:
     - name: tableConv-uaa
-    - name: hdi-container    
-
+    - name: CROSS_SCHEMA_SYS
+    
 - name: web
   type: html5
   path: web
   requires:
     - name: tableConv-uaa
+    - name: ui5-lib
+      properties:
+        ui5liburl: ~{url}      
+ #  - name: EXTERNAL_UI5
+ #    properties:
+ #      ui5liburl: ~{url}    
     - name: nodejs
       group: destinations
       properties:
@@ -42,15 +33,8 @@ modules:
         forwardAuthToken: true
 
 resources:
-- name: hdi-container
-  type: com.sap.xs.hdi-container
-  properties:
-    hdi-service-name: ${service-name}
-  parameters:  
-    config:
-      schema: TABLE_CONV_HDBCDS
-      
-- name: CrossSchemaSys
+
+- name: CROSS_SCHEMA_SYS
   type: org.cloudfoundry.existing-service
   parameters:
     service-name: CROSS_SCHEMA_SYS
@@ -61,3 +45,20 @@ resources:
   type: com.sap.xs.uaa
   parameters:
     config_path: ./xs-security.json
+
+#Only if Avilable
+- name: ui5-lib
+  type: configuration 
+  parameters:
+    ID: com.sap.ui5.dist.sapui5-dist-xsa.XSAC_SAPUI5_FESV2:sapui5_fesv2 # Specifies the the ID of the provider MTA.
+    name: sapui5_fesv2
+    version: "=1.38.3"     # The version (range) of the provider MTA.     
+      
+- name: EXTERNAL_UI5
+  type: org.cloudfoundry.user-provided-service
+  parameters:
+    service-name: EXTERNAL_UI5
+    url: https://sapui5.hana.ondemand.com
+  properties:
+    ext-ui5-service-name: ${service-name}
+    url: ${url}    

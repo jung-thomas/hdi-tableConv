@@ -17,11 +17,14 @@ module.exports = {
 		}).uaa));
 		app.use(passport.initialize());
 
+		var options = xsenv.getServices({
+			hana: "CROSS_SCHEMA_SYS"
+		});
 		app.use(
 			passport.authenticate("JWT", {
 				session: false
 			}),
-			xsHDBConn.middleware());
+			xsHDBConn.middleware(options.hana));
 		return app;
 	}
 };

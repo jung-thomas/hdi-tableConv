@@ -5,11 +5,14 @@
 		"source": "/rest(.*)",
 		"destination": "nodejs",
 		"csrfProtection": true,
-		"authenticationType": "xsuaa" 
-	},
-	{
+		"authenticationType": "xsuaa"
+	}, {
 		"source": "^/(.*)$",
 		"localDir": "resources",
-		"authenticationType": "xsuaa"
+		"authenticationType": "xsuaa",
+		"replace": {
+			"pathSuffixes": ["index.html"],
+			"vars": ["ui5liburl"]
+		}
 	}]
 }
