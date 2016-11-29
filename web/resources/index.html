@@ -2,30 +2,46 @@
 <html>
 <head>
 
-<title>Catalog Table Converter</title>
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv='Content-Type' content='text/html;charset=UTF-8' />
-<link type="image/x-icon" href="./images/favicon.ico" rel="shortcut icon">
-<link type="image/x-icon" href="./images/favicon.ico" rel="icon">
 
 <!-- 1.) Load SAPUI5 (from a remote server), select theme and control library -->
 	    <!-- <script id="sap-ui-bootstrap" src="https://sapui5.hana.ondemand.com/resources/sap-ui-core.js" -->
 	<script id="sap-ui-bootstrap" src="{{{ui5liburl}}}/resources/sap-ui-core.js"
-		data-sap-ui-theme="sap_bluecrystal"
+		data-sap-ui-theme="sap_belize"
 		data-sap-ui-xx-bindingSyntax="complex"
+		data-sap-ui-preload="async"
+		data-sap-ui-compatVersion="edge"
+		data-sap-ui-language="en"
 		data-sap-ui-resourceroots='{
 				"sap.xsopen.tableConv": "./",
 				"view": "./view"}'			
 		data-sap-ui-libs="sap.m, sap.me, sap.ui.unified, sap.ui.layout">
 		</script>
 <!-- 2.) Create a UI5 button and place it onto the page -->
-<script>
-		new sap.m.Shell({
-   				app : new sap.ui.core.ComponentContainer({
-   					name : "sap.xsopen.tableConv"
-   				})
-   			}).placeAt("content");
-   			
+	<script>
+            sap.ui.getCore().attachInit(function () {
+            	
+            	var oCompContainer = new sap.ui.core.ComponentContainer({
+            		height : "100%"
+            	})
+            	
+            	new sap.m.Shell({
+            		app: oCompContainer,
+            		showLogout: false
+            	}).placeAt("content");
+            	
+            	var oComponent = sap.ui.component({
+            		id: "comp",
+            		name: "sap.xsopen.tableConv",
+            		manifestFirst: true,
+            		async: true
+            	}).then(function(oComponent){
+            		oCompContainer.setComponent(oComponent);
+            	});
+            	
+                
+            });
    			</script>
    		</head>
    		<body class="sapUiBody" role="application">

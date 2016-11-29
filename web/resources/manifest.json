@@ -1,0 +1,45 @@
+{
+  "_version": "1.4.0",
+  "start_url": "index.html",
+  "sap.app": {
+  	"i18n": "i18n/i18n.properties",
+  	"id": "tableConv",
+  	"title": "{{appTitle}}",
+  	"description": "{{appDescription}}"
+  },
+  "sap.ui": {
+  	 "icons":  {
+  	 	"icon": "./images/favicon.ico",
+  	 	"favIcon": "./images/favicon.ico"
+  	 }
+  },
+  "sap.ui5": {
+    "config": {
+      "sapFiori2Adaptation": true
+    },
+    "rootView": {
+    	"viewName": "sap.xsopen.tableConv.view.App",
+    	"type": "XML",
+    	"id": "app"
+    },
+    "handleValidation": true,
+    "models": {
+    	"": {
+    		"type": "sap.ui.model.json.JSONModel",
+    		"settings": {
+    			"defaultBindingMode": "TwoWay"
+    		}
+    	},
+    	"config": {
+    		"type": "sap.ui.model.json.JSONModel"	
+    	},
+    	"i18n": {
+    		"type": "sap.ui.model.resource.ResourceModel",
+    		"settings": {
+    			"bundleUrl": "./i18n/i18n.properties"
+    		}
+    	}
+    }
+    
+  }
+}

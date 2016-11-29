@@ -1,13 +1,12 @@
 {
 	"engines": {
-		"node": "^0.12.7 || ^4.4.0 ",
-		"npm": "^2.11.x"
+		"node": "4.x || 6.x"
 	},
 	"dependencies": {
-		"sap-xsenv": "1.2.2",
+		"sap-xsenv": "1.2.4",
 		"express": "~4.14",
-		"sap-hdbext": "2.0.4",
-		"sap-xssec": "0.5.4",
+		"sap-hdbext": "4.2.0",
+		"sap-xssec": "0.9.1",
 		"passport": "~0.3.2",
 		"async": "latest",
 		"node-zip": "~1.1.1",
