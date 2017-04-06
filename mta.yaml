@@ -1,6 +1,6 @@
 _schema-version: 2.0.0
 ID: hdi-tableConv
-version: 2.0.1
+version: 2.1.0
 
 modules:
 - name: js
@@ -45,9 +45,8 @@ resources:
 
 #Only if Avilable
 - name: ui5-lib
-  type: configuration 
+  type: configuration
   parameters:
-      ID: com.sap.ui5.dist.sapui5-dist-xsa.XSAC_SAPUI5_FESV3:sapui5_fesv3 # Specifies the the ID of the provider MTA.
-      name: sapui5_fesv3
-      version: "=1.40.12"     # The version (range) of the provider MTA.       
+    provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV3:sapui5_fesv3'
+    version: '>=1.44.0'      
       
