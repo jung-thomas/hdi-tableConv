@@ -35,7 +35,7 @@ module.exports = {
 								callback(err);
 							} else {
 								if (type === 'zip') {
-									zip.file(table.TABLE_NAME.toString() + ".txt", results + '\n\n');
+									zip.file(table.TABLE_NAME.toString() + ".hdbcds", results + '\n\n');
 									callback();
 								} else {
 									outString += results + '\n\n';
