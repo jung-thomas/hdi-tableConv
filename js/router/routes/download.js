@@ -11,27 +11,39 @@ module.exports = {
 			if (typeof type === "undefined" || type === null || type === "") {
 				type = "txt";
 			}
-			if (!(type === "txt" || type === "zip")) {
+			if (!(type === "txt" || type === "zip" || type === 'sql')) {
 				res.type("text/plain").status(500).send("ERROR: " + "Unknown Output Format Requested");
 				return;
 			}
 			var zip = new require("node-zip")();
 
-			require(global.__base + "router/routes/tables").getTables(req.params.schema, req.params.table, req.db, null, function(err, tablesJSON) {
+			require(global.__base + "router/routes/tables").getTables(req.params.schema, req.params.table, req.db, null, function(err,
+				tablesJSON) {
 				require("async").each(tablesJSON, function(table, callback) {
-					require(global.__base + "router/routes/hdbcds").getHDBCDS(table.TABLE_OID.toString(), req.db, function(err, results) {
-						if (err) {
-							callback(err);
-						} else {
-							if (type === 'zip') {
-								zip.file(table.TABLE_NAME.toString() + ".txt", results + '\n\n');
-								callback();
+					if (type === 'sql') {
+						require(global.__base + "router/routes/hdbtable").getHDBTable(table.TABLE_OID.toString(), req.db, function(err, results) {
+							if (err) {
+								callback(err);
 							} else {
-								outString += results + '\n\n';
+								zip.file(table.TABLE_NAME.toString() + ".hdbtable", results + '\n\n');
 								callback();
 							}
-						}
-					});
+						});
+					} else {
+						require(global.__base + "router/routes/hdbcds").getHDBCDS(table.TABLE_OID.toString(), req.db, function(err, results) {
+							if (err) {
+								callback(err);
+							} else {
+								if (type === 'zip') {
+									zip.file(table.TABLE_NAME.toString() + ".txt", results + '\n\n');
+									callback();
+								} else {
+									outString += results + '\n\n';
+									callback();
+								}
+							}
+						});
+					}
 				}, function(err) {
 					if (err) {
 						res.type("text/plain").status(500).send("ERROR: " + err);
@@ -43,7 +55,16 @@ module.exports = {
 							});
 							res.header("Content-Disposition", "attachment; filename=ConversionHDBCDS.zip");
 							res.type("application/zip").status(200).send(new Buffer(data, "binary"));
-						} else {
+						} 
+						if (type === 'sql') {
+							var data2 = zip.generate({
+								base64: false,
+								compression: "DEFLATE"
+							});
+							res.header("Content-Disposition", "attachment; filename=ConversionHDBTable.zip");
+							res.type("application/zip").status(200).send(new Buffer(data2, "binary"));
+						}
+						if (type === 'txt') {
 							res.header("Content-Disposition", "attachment; filename=ConversionHDBCDS.txt");
 							res.type("application/octet-stream").status(200).send(outString);
 						}

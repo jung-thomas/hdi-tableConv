@@ -16,11 +16,12 @@
 				<Toolbar>
 					<Button text="{i18n>display}" press="onConversionDisplay"/>
 					<Button text="{i18n>massTbl}" press="onDownloadText"/>
-					<Button text="{i18n>massDD}" press="onDownloadZip"/>
+					<Button text="{i18n>massDD}"  press="onDownloadZip"/>
+					<Button text="{i18n>massDD2}" press="onDownloadZip2"/>
 				</Toolbar>
 			</Panel>
-			<Panel id="CDSTABLEPanelContent" headerText="{i18n>p3}" expandable="true" expanded="true">
-			</Panel>
+			<Panel id="HDBTABLEPanelContent" headerText="{i18n>p2}" expandable="true" expanded="true"></Panel>
+			<Panel id="CDSTABLEPanelContent" headerText="{i18n>p3}" expandable="true" expanded="true"></Panel>
 		</u:content>
 	</u:Shell>
 </core:View>

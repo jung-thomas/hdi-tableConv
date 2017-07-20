@@ -8,6 +8,7 @@ module.exports = function(app) {
 	app.use("/rest/fields", require("./routes/fields").router());
 	app.use("/rest/constraints", require("./routes/constraints").router());
 	app.use("/rest/hdbcds", require("./routes/hdbcds").router());
+	app.use("/rest/hdbtable", require("./routes/hdbtable").router());	
 	app.use("/rest/download", require("./routes/download").router());
 	app.use("/rest/sessionInfo", require("./routes/sessionInfo").router());
 

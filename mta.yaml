@@ -1,52 +1,44 @@
 _schema-version: 2.0.0
 ID: hdi-tableConv
-version: 2.2.0
-
+version: 2.2.1
 modules:
-- name: js
-  type: nodejs
-  path: js
-  provides: 
-    - name: nodejs
-      properties:
-        url: "${default-url}"
-  requires:
-    - name: tableConv-uaa
-    - name: CROSS_SCHEMA_SYS
-    
-- name: web
-  type: html5
-  path: web
-  requires:
-    - name: tableConv-uaa
-    - name: ui5-lib
-      properties:
-        ui5liburl: ~{url}      
-    - name: nodejs
-      group: destinations
-      properties:
-        name: nodejs
-        url: ~{url}
-        forwardAuthToken: true
-
+  - name: js
+    type: nodejs
+    path: js
+    provides:
+      - name: nodejs
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: tableConv-uaa
+      - name: CROSS_SCHEMA_SYS
+  - name: web
+    type: html5
+    path: web
+    requires:
+      - name: tableConv-uaa
+      - name: ui5-lib
+        properties:
+          ui5liburl: '~{url}'
+      - name: nodejs
+        group: destinations
+        properties:
+          name: nodejs
+          url: '~{url}'
+          forwardAuthToken: true
 resources:
-
-- name: CROSS_SCHEMA_SYS
-  type: org.cloudfoundry.existing-service
-  parameters:
-    service-name: CROSS_SCHEMA_SYS
-  properties:
-    sys-service-name: ${service-name}
-    
-- name: tableConv-uaa
-  type: com.sap.xs.uaa
-  parameters:
-    config_path: ./xs-security.json
-
-#Only if Avilable
-- name: ui5-lib
-  type: configuration
-  parameters:
-    provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV4:sapui5_fesv4'
-    version: '>=1.49.0-SNAPSHOT'  
-      
+  - name: CROSS_SCHEMA_SYS
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: CROSS_SCHEMA_SYS
+    properties:
+      sys-service-name: '${service-name}'
+  - name: tableConv-uaa
+    type: com.sap.xs.uaa
+    parameters:
+      config_path: ./xs-security.json
+  - name: ui5-lib
+    type: configuration
+    parameters:
+      provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV3:sapui5_fesv3'
+      version: '>=1.44.0'
