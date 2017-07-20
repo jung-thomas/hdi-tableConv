@@ -36,6 +36,8 @@ function formatHDBTable(tableJSON, client, callback) {
 			hdbtable = hdbtable.toString();
 			hdbtable = hdbtable.slice(7);
 			hdbtable = hdbtable.replace("\"" + tableJSON[0].SCHEMA_NAME + "\".", "");
+			
+			hdbtable = hdbtable.replace(new RegExp(" ,", 'g'), ",\n");			
 			callback(null, hdbtable);
 			return;
 		});
