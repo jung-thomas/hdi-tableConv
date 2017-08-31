@@ -25,6 +25,7 @@ module.exports = {
 		var options = xsenv.getServices({
 			hana: "CROSS_SCHEMA_SYS"
 		});
+		options.hana.rowsWithMetadata = true;
 		app.use(
 			passport.authenticate("JWT", {
 				session: false

@@ -5,9 +5,9 @@
 	"dependencies": {
 		"@sap/xsenv": "1.2.7",
 		"express": "~4.15",
-		"@sap/logging": "~3.0",
-		"@sap/hdbext": "4.3.4",
-		"@sap/xssec": "1.1.1",
+		"@sap/logging": "~3.1",
+		"@sap/hdbext": "4.4.2",
+		"@sap/xssec": "2.1.0",
 		"passport": "~0.3.2",
 		"async": "latest",
 		"node-zip": "~1.1.1",
