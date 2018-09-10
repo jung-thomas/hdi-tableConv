@@ -1,0 +1,1 @@
+xs create-service sapui5_sb sapui5-1.52 tableConv-ui5

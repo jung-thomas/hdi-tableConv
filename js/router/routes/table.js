@@ -1,20 +1,22 @@
-/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, quotes: 0, consistent-return: 0, new-cap: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, new-cap: 0, dot-notation:0 */
+/*eslint-env node, es6 */
 "use strict";
 
 function getTableInt(tableOid, client, callback) {
-	var query = 'SELECT * from TABLES ' +
-		' WHERE TABLE_OID = ? ';
+	var query =
+		`SELECT * from TABLES
+		  WHERE TABLE_OID = ? `;
 	client.prepare(
 		query,
-		function(err, statement) {
+		(err, statement) => {
 			statement.exec([tableOid],
-				function(err, results) {
+				(err, results) => {
 					if (err) {
 						callback(err);
 					} else {
 						var out = [];
-						for (var i = 0; i < results.length; i++) {
-							out.push(results[i]);
+						for (let result of results) {
+							out.push(result);
 						}
 						callback(null, out);
 					}
@@ -23,14 +25,14 @@ function getTableInt(tableOid, client, callback) {
 }
 
 module.exports = {
-	getTable: function(tableOid, client, callback) {
+	getTable: (tableOid, client, callback) => {
 		getTableInt(tableOid, client, callback);
 	},
 
-	router: function() {
+	router: () => {
 		var app = require("express").Router();
-		app.get("/:tableOid", function(req, res) {
-			getTableInt(req.params.tableOid, req.db, function(err, results) {
+		app.get("/:tableOid", (req, res) => {
+			getTableInt(req.params.tableOid, req.db, (err, results) => {
 				if (err) {
 					res.type("text/plain").status(500).send("ERROR: " + err);
 				} else {
@@ -41,5 +43,4 @@ module.exports = {
 
 		return app;
 	}
-
 };

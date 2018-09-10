@@ -1,4 +1,5 @@
 /*eslint no-console: 0, no-unused-vars: 0, no-undef:0*/
+/*eslint-env node, es6 */
 "use strict";
 
 var port = process.env.PORT || 3000;
@@ -15,5 +16,5 @@ var router = require("./router")(app);
 //Start the Server 
 server.on("request", app);
 server.listen(port, function() {
-	console.info("HTTP Server: " + server.address().port);
+	console.info(`HTTP Server: ${server.address().port}`);
 });

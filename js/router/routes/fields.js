@@ -1,22 +1,24 @@
-/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, quotes: 0, consistent-return: 0, new-cap: 0*/
+/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, new-cap: 0, dot-notation:0 */
+/*eslint-env node, es6 */
 "use strict";
 var express = require("express");
 
 function getFieldsInt(tableOid, client, callback) {
-    var query = 'SELECT * from TABLE_COLUMNS ' +
-    ' WHERE TABLE_OID = ? ' +
-    ' ORDER BY POSITION ';
+	const query =
+		`SELECT * from TABLE_COLUMNS
+  	      WHERE TABLE_OID = ?
+          ORDER BY POSITION `;
 	client.prepare(
 		query,
-		function(err, statement) {
+		(err, statement) => {
 			statement.exec([tableOid],
-				function(err, results) {
+				(err, results) => {
 					if (err) {
 						callback(err);
 					} else {
-						var out = [];
-						for (var i = 0; i < results.length; i++) {
-							out.push(results[i]);
+						let out = [];
+						for (let result of results){
+							out.push(result);
 						}
 						callback(null, out);
 					}
@@ -25,14 +27,14 @@ function getFieldsInt(tableOid, client, callback) {
 }
 
 module.exports = {
-	getFields: function(tableOid, client, callback) {
+	getFields: (tableOid, client, callback) => {
 		getFieldsInt(tableOid, client, callback);
 	},
 
-	router: function() {
+	router: () => {
 		var app = require("express").Router();
-		app.get("/:tableOid", function(req, res) {
-			getFieldsInt(req.params.tableOid, req.db, function(err, results) {
+		app.get("/:tableOid", (req, res) => {
+			getFieldsInt(req.params.tableOid, req.db, (err, results) => {
 				if (err) {
 					res.type("text/plain").status(500).send("ERROR: " + err);
 				} else {
@@ -43,5 +45,4 @@ module.exports = {
 
 		return app;
 	}
-
 };

@@ -1,6 +1,6 @@
-_schema-version: 2.0.0
+_schema-version: 3.1.0
 ID: hdi-tableConv
-version: 2.2.1
+version: 2.3.0
 modules:
   - name: js
     type: nodejs
@@ -17,9 +17,7 @@ modules:
     path: web
     requires:
       - name: tableConv-uaa
-      - name: ui5-lib
-        properties:
-          ui5liburl: '~{url}'
+      - name: tableConv-ui5
       - name: nodejs
         group: destinations
         properties:
@@ -35,10 +33,8 @@ resources:
       sys-service-name: '${service-name}'
   - name: tableConv-uaa
     type: com.sap.xs.uaa
+  - name: tableConv-ui5
+    type: org.cloudfoundry.managed-service
     parameters:
-      config_path: ./xs-security.json
-  - name: ui5-lib
-    type: configuration
-    parameters:
-      provider-id: 'com.sap.ui5.dist.sapui5-dist-xsa.XSAC_UI5_FESV3:sapui5_fesv3'
-      version: '>=1.44.0'
+      service: sapui5_sb
+      service-plan: sapui5-1.52

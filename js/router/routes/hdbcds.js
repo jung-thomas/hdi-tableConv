@@ -1,4 +1,5 @@
-/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, quotes: 0, consistent-return: 0, new-cap: 0, no-empty:0*/
+/*eslint no-console: 0, no-unused-vars: 0, no-shadow: 0, new-cap: 0, dot-notation:0 */
+/*eslint-env node, es6 */
 "use strict";
 
 function getTablesFields(tableOid, client, callback) {
@@ -6,8 +7,8 @@ function getTablesFields(tableOid, client, callback) {
 	var fieldsJSON = {};
 	require("async").parallel([
 
-			function(cb) {
-				require(global.__base + "router/routes/table").getTable(tableOid, client, function(err, results) {
+			(cb) => {
+				require(global.__base + "router/routes/table").getTable(tableOid, client, (err, results) => {
 					if (err) {
 						cb(err);
 					} else {
@@ -16,8 +17,8 @@ function getTablesFields(tableOid, client, callback) {
 					}
 				});
 			},
-			function(cb) {
-				require(global.__base + "router/routes/fields").getFields(tableOid, client, function(err, results) {
+			(cb) => {
+				require(global.__base + "router/routes/fields").getFields(tableOid, client, (err, results) => {
 					if (err) {
 						cb(err);
 					} else {
@@ -27,13 +28,13 @@ function getTablesFields(tableOid, client, callback) {
 				});
 			}
 		],
-		function(err) {
+		(err) => {
 			if (err) {
 				callback(err);
 			} else {
-				if (tableJSON[0].HAS_PRIMARY_KEY === 'TRUE') {
+				if (tableJSON[0].HAS_PRIMARY_KEY === "TRUE") {
 					require(global.__base + "router/routes/constraints").getConstraints(tableJSON[0].SCHEMA_NAME, tableJSON[0].TABLE_NAME, client,
-						function(err, constraintsJSON) {
+						(err, constraintsJSON) => {
 							if (err) {
 								callback(err);
 							} else {
@@ -49,102 +50,103 @@ function getTablesFields(tableOid, client, callback) {
 }
 
 function formatHDBCDS(tableJSON, fieldsJSON, constraintsJSON, callback) {
-	var cdstable = '';
+	var cdstable = "";
 
-	cdstable += 'Entity ' + tableJSON[0].TABLE_NAME + ' { \n';
+	cdstable += `Entity ${tableJSON[0].TABLE_NAME}  { \n`;
 
-	var isKey = 'FALSE';
-	for (var i = 0; i < fieldsJSON.length; i++) {
-		cdstable += '\t';
-		isKey = 'FALSE';
-		if (tableJSON[0].HAS_PRIMARY_KEY === 'TRUE') {
-			for (var i2 = 0; i2 < constraintsJSON.length; i2++) {
-				if (fieldsJSON[i].COLUMN_NAME === constraintsJSON[i2].COLUMN_NAME) {
-					cdstable += 'key ';
-					isKey = 'TRUE';
+	var isKey = "FALSE";
+	for (let field of fieldsJSON){
+
+		if (field.COMMENTS !== null){
+			cdstable += "\t";
+			cdstable += `@Comment: '${field.COMMENTS}'\n`;
+		}
+
+		isKey = "FALSE";
+		if (tableJSON[0].HAS_PRIMARY_KEY === "TRUE") {
+			for (let constraint of constraintsJSON) {
+				if (field.COLUMN_NAME === constraint.COLUMN_NAME) {
+					cdstable += "key ";
+					isKey = "TRUE";
 				}
 			}
 		}
+		cdstable += "\t";
+		cdstable += field.COLUMN_NAME + ": ";
 
-		cdstable += fieldsJSON[i].COLUMN_NAME + ': ';
-
-		switch (fieldsJSON[i].DATA_TYPE_NAME) {
+		switch (field.DATA_TYPE_NAME) {
 			case "NVARCHAR":
-				cdstable += 'String(' + fieldsJSON[i].LENGTH + ')';
+				cdstable += `String('${field.LENGTH}')`;
 				break;
 			case "VARCHAR":
-				cdstable += 'String(' + fieldsJSON[i].LENGTH + ')';
+				cdstable += `String('${field.LENGTH}')`;
 				break;
 			case "NCLOB":
-				cdstable += 'LargeString';
+				cdstable += "LargeString";
 				break;
 			case "VARBINARY":
-				cdstable += 'Binary(' + fieldsJSON[i].LENGTH + ')';
+				cdstable += `Binary('${field.LENGTH}')`;
 				break;
 			case "BLOB":
-				cdstable += 'LargeBinary';
+				cdstable += "LargeBinary";
 				break;
 			case "INTEGER":
-				cdstable += 'Integer';
+				cdstable += "Integer";
 				break;
 			case "BIGINT":
-				cdstable += 'Integer64';
+				cdstable += "Integer64";
 				break;
 			case "DECIMAL":
-				cdstable += 'Decimal(' + fieldsJSON[i].LENGTH + ', ' + fieldsJSON[i].SCALE + ')';
+				cdstable += `Decimal('${field.LENGTH}', '${field.SCALE}')`;
 				break;
 			case "DOUBLE":
-				cdstable += 'BinaryFloat';
+				cdstable += "BinaryFloat";
 				break;
 			case "DATE":
-				cdstable += 'LocalDate';
+				cdstable += "LocalDate";
 				break;
 			case "TIME":
-				cdstable += 'LocalTime';
+				cdstable += "LocalTime";
 				break;
 			case "SECONDDATE":
-				cdstable += 'UTCDateTime';
+				cdstable += "UTCDateTime";
 				break;
 			case "TIMESTAMP":
-				cdstable += 'UTCTimestamp';
+				cdstable += "UTCTimestamp";
 				break;
 			default:
-				cdstable += 'hana.' + fieldsJSON[i].DATA_TYPE_NAME;
+				cdstable += `hana.${field.DATA_TYPE_NAME}`;
 				//cdstable += '**UNSUPPORTED TYPE - ' + fieldsJSON[i].DATA_TYPE_NAME;
 
 		}
 
-		if (fieldsJSON[i].DEFAULT_VALUE) {
-			cdstable += ' default "' + fieldsJSON[i].DEFAULT_VALUE + '"';
+		if (field.DEFAULT_VALUE) {
+			cdstable += ` default "${field.DEFAULT_VALUE}"`;
 		}
 
-		if (fieldsJSON[i].IS_NULLABLE === 'FALSE') {
-			if (isKey === 'FALSE') {
-				cdstable += ' not null';
+		if (field.IS_NULLABLE === "FALSE") {
+			if (isKey === "FALSE") {
+				cdstable += " not null";
 			}
 		} else {
-			if (isKey === 'TRUE') {
-				cdstable += ' null';
+			if (isKey === "TRUE") {
+				cdstable += " null";
 			}
 		}
-		cdstable += '; ';
+		cdstable += "; ";
 
-		if (fieldsJSON[i].COMMENTS === null) {} else {
-			cdstable += '// ' + fieldsJSON[i].COMMENTS;
-		}
-
-		cdstable += '\n';
+		cdstable += "\n";
 	}
-	cdstable += '}\n';
-	cdstable += 'technical configuration { \n';
+	cdstable += "}\n";
+	cdstable += "technical configuration { \n";
 
-	if (tableJSON[0].IS_COLUMN_TABLE === 'TRUE') {
-		cdstable += '\tcolumn store;\n';
+	if (tableJSON[0].IS_COLUMN_TABLE === "TRUE") {
+		cdstable += "\tcolumn store;\n";
 	} else {
-		cdstable += '\trow store;\n';
+		cdstable += "\trow store;\n";
 	}
 
-	cdstable += '};\n';
+	cdstable += "};\n";
 	callback(null, cdstable);
 }
 
@@ -153,7 +155,7 @@ function getHDBCDSInt(tableOid, client, callback) {
 		callback("Invalid source table");
 		return;
 	}
-	getTablesFields(tableOid, client, function(err, tableJSON, fieldsJSON, constraintsJSON) {
+	getTablesFields(tableOid, client, (err, tableJSON, fieldsJSON, constraintsJSON) => {
 		if (err) {
 			callback(err);
 		} else {
@@ -163,14 +165,14 @@ function getHDBCDSInt(tableOid, client, callback) {
 }
 
 module.exports = {
-	getHDBCDS: function(tableOid, client, callback) {
+	getHDBCDS: (tableOid, client, callback) => {
 		getHDBCDSInt(tableOid, client, callback);
 	},
 
-	router: function() {
+	router: () => {
 		var app = require("express").Router();
-		app.get("/:tableOid", function(req, res) {
-			getHDBCDSInt(req.params.tableOid, req.db, function(err, results) {
+		app.get("/:tableOid", (req, res) => {
+			getHDBCDSInt(req.params.tableOid, req.db, (err, results) => {
 				if (err) {
 					res.type("text/plain").status(500).send("ERROR: " + err);
 				} else {

@@ -1,14 +1,14 @@
 {
 	"engines": {
-		"node": "4.x || 6.x"
+		"node": "8.x"
 	},
 	"dependencies": {
-		"@sap/xsenv": "1.2.7",
-		"express": "~4.15",
-		"@sap/logging": "~3.1",
-		"@sap/hdbext": "4.4.2",
-		"@sap/xssec": "2.1.0",
-		"passport": "~0.3.2",
+		"@sap/xsenv": "1.2.9",
+		"express": "~4.16",
+		"@sap/logging": "~4.0",
+		"@sap/hdbext": "4.7.4",
+		"@sap/xssec": "2.1.15",
+		"passport": "~0.4.0",
 		"async": "latest",
 		"node-zip": "~1.1.1",
 		"accept-language-parser": "latest"
